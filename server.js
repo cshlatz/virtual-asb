@@ -29,18 +29,17 @@ function asb(req, res) {
             let games = results.data;
             let chosenGames = '';
             let golfObjectiveFlag = false;
+            let objectiveCount = parseInt(req.query.objectivecount);
             for (var i = 0; i < req.query.count; i++) {
                 let game = games.splice(getRandomInt(games.length - 1), 1)[0];
                 let thegame = game[0];
                 let objective;
                 if (req.query.type === "golf") {
                     if (!golfObjectiveFlag) {
-                        let rng = Math.floor(Math.random() * Math.floor(game.length - 1)) + 1;
-                        if (rng === 1 && i + 1 === req.query.count) {
-                            let rng = Math.floor(Math.random() * Math.floor(game.length)) + 1;
-                        }
+                        objectiveCount--;
+                        let rng = Math.floor(Math.random() * 2 + 2);
                         objective = game[rng];
-                        if (rng > 1) {
+                        if (objectiveCount === 0) {
                             golfObjectiveFlag = true;
                         }
                     } else {
